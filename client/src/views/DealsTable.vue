@@ -15,7 +15,8 @@
     </div>
 
     <div class="container mt-5">
-        <div class="table-responsive">
+        <button class="btn btn-danger" @click="downloadLeads()">Выгрузить лиды</button>
+        <div class="table-responsive mt-3">
             <table class="table table-striped table-bordered table-hover">
                 <thead class="thead-dark">
                     <tr>
@@ -70,6 +71,46 @@ export default {
                 },
             });
             this.tableData = response.data.data;
+        },
+        downloadLeads() {
+            if (!this.tableData || this.tableData.length === 0) {
+                alert('Нет данных для экспорта');
+                return;
+            }
+
+            this.tableData.forEach((lead) => {
+                lead.phone = lead.phone.replace(/\D/g, '');
+            });
+
+            const headers = ['Город', 'Дилер', 'Модель', 'Имя', 'Телефон', 'Коментарий', 'Оператор', 'Пресейл', 'Дата'];
+
+            const csvRows = [];
+
+            csvRows.push(headers.join(','));
+
+            this.tableData.forEach((item) => {
+                const row = [item.city, item.dealer, item.model, item.name, item.phone, item.comment, item.operator, item.presale, item.createdAt];
+                const escapedRow = row.map((field) => {
+                    if (typeof field === 'string' && (field.includes(',') || field.includes('"'))) {
+                        return `"${field.replace(/"/g, '""')}"`;
+                    }
+                    return field;
+                });
+                csvRows.push(escapedRow.join(','));
+            });
+
+            const csvString = csvRows.join('\n');
+
+            const blob = new Blob([csvString], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'leads.csv';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
         },
     },
     async beforeMount() {
