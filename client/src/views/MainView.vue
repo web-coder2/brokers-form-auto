@@ -56,6 +56,10 @@
 <script>
 import axios from 'axios';
 
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+
+console.log('API base URL:', apiBaseUrl);
+
 export default {
     data() {
         return {
@@ -78,7 +82,7 @@ export default {
     },
     methods: {
         async fetchDealersData() {
-            let response = await axios.get('http://localhost:3000/api/dealears/get');
+            let response = await axios.get(`${apiBaseUrl}api/dealears/get`);
             this.cities = response.data.cities;
             this.dealers = response.data.dealers;
             this.models = response.data.models;
@@ -92,7 +96,7 @@ export default {
             }
         },
         async createDealer() {
-            let response = await axios.post('http://localhost:3000/api/dealears/create', {
+            let response = await axios.post(`${apiBaseUrl}api/dealears/create`, {
                 dealersObject: this.formObject,
             });
             console.log(response.data);

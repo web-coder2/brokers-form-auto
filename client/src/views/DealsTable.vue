@@ -53,6 +53,8 @@
 import dayjs from 'dayjs';
 import axios from 'axios';
 
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+
 export default {
     data() {
         return {
@@ -64,7 +66,7 @@ export default {
     },
     methods: {
         async fetchTableData() {
-            let response = await axios.get('http://localhost:3000/api/dealers/filter', {
+            let response = await axios.get(`${apiBaseUrl}api/dealers/filter`, {
                 params: {
                     gte: this.gte,
                     lte: this.lte,
