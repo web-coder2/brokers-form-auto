@@ -12,6 +12,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/">Главная</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/table">таблица лидов</a>
+                </li>
             </ul>
         </div>
     </nav>

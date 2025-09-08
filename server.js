@@ -84,6 +84,27 @@ async function startApp() {
     }
 }
 
+app.get('/api/dealers/filter', async (req, res) => {
+    let { gte, lte } = req.query;
+
+    try {
+        let tableData = await dealerModel.find({
+            createdAt: {
+                $gte: dayjs(gte).format('YYYY-MM-DD'),
+                $lte: dayjs(lte).format('YYYY-MM-DD'),
+            },
+        });
+        res.status(200).json({
+            data: tableData,
+        });
+    } catch (e) {
+        console.log(e.message);
+        res.status(200).json({
+            e: e.message,
+        });
+    }
+});
+
 app.post('/api/dealears/create', async (req, res) => {
     let { dealersObject } = req.body;
 
