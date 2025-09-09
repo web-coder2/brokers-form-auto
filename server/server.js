@@ -105,10 +105,34 @@ app.get('/api/dealers/filter', async (req, res) => {
     }
 });
 
+app.post('/api/dealears/update', async (req, res) => {
+    let { leadObject } = req.body;
+
+    try {
+        let result = await dealerModel.findOneAndUpdate({ _id: leadObject._id }, { $set: { ...leadObject } }, { new: true });
+
+        res.status(200).json({ result });
+    } catch (e) {
+        console.log(e.message);
+        res.status(200).json({ e: e.message });
+    }
+});
+
+app.post('/api/dealears/delete', async (req, res) => {
+    let { leadId } = req.body;
+
+    try {
+        let result = await dealerModel.findOneAndDelete({ _id: leadId });
+
+        res.status(200).json({ result });
+    } catch (e) {
+        console.log(e.message);
+        res.status(200).json({ e: e.message });
+    }
+});
+
 app.post('/api/dealears/create', async (req, res) => {
     let { dealersObject } = req.body;
-
-    console.log(dealersObject);
 
     try {
         const newDealer = new dealerModel({

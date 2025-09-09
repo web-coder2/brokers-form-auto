@@ -6,7 +6,7 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "dev": "concurrently \"npm run server\" \"npm run client\"",
         "client": "cd client && npm install && npm run dev",
-        "server": "cd server && npm install && node server.js"
+        "server": "cd server && npm install && nodemon server.js"
     },
     "author": "",
     "license": "ISC",

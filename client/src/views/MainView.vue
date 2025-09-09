@@ -99,7 +99,19 @@ export default {
             let response = await axios.post(`${apiBaseUrl}api/dealears/create`, {
                 dealersObject: this.formObject,
             });
+
             console.log(response.data);
+
+            this.formObject = {
+                city: '',
+                dealer: '',
+                model: '',
+                name: null,
+                phone: null,
+                comment: null,
+                operator: '',
+                presale: null,
+            };
         },
     },
     computed: {

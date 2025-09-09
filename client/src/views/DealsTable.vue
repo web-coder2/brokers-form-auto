@@ -11,11 +11,11 @@
                 <input type="date" v-model="lte" class="form-control" />
             </div>
         </div>
-        <button class="btn btn-primary mt-3" @click="fetchTableData()">Применить</button>
+        <button class="btn btn-primary mt-3" @click="fetchTableData()"><i class="fas fa-server"></i> Применить</button>
     </div>
 
     <div class="container mt-5">
-        <button class="btn btn-danger" @click="downloadLeads()">Выгрузить лиды</button>
+        <button class="btn btn-danger" @click="downloadLeads()"><i class="fas fa-download"></i> Выгрузить лиды</button>
         <div class="table-responsive mt-3">
             <table class="table table-striped table-bordered table-hover">
                 <thead class="thead-dark">
@@ -45,7 +45,7 @@
                         <td>{{ item.presale }}</td>
                         <td>{{ item.createdAt }}</td>
                         <td>
-                            <button class="btn btn-danger"><i class="fas fa-trash"></i>Удалить</button>
+                            <button class="btn btn-danger" @click="deleteLead(item._id)"><i class="fas fa-trash"></i>Удалить</button>
                         </td>
                         <td>
                             <button class="btn btn-warning" @click="editLead(item)"><i class="fas fa-pen"></i>Редактировать</button>
@@ -117,8 +117,8 @@
                     </div>
                 </div>
                 <div class="modal-footer mt-auto">
-                    <button class="btn btn-primary" @click="saveChanges">Сохранить</button>
-                    <button class="btn btn-secondary ml-2" @click="editVisibleLead = false">Отмена</button>
+                    <button class="btn btn-primary" @click="saveChanges"><i class="fas fa-server"></i> Сохранить</button>
+                    <button class="btn btn-secondary ml-2" @click="editVisibleLead = false"><i class="fas fa-times"></i> Отмена</button>
                 </div>
             </div>
         </div>
@@ -209,10 +209,21 @@ export default {
         },
         async saveChanges() {
             try {
-                await axios.post(`${apiBaseUrl}api/leads/update`, {
+                await axios.post(`${apiBaseUrl}api/dealears/update`, {
                     leadObject: this.formObject,
                 });
                 this.editVisibleLead = false;
+                await this.fetchTableData();
+            } catch (error) {
+                console.error('Ошибка при сохранении:', error);
+            }
+        },
+        async deleteLead(leadId) {
+            try {
+                await axios.post(`${apiBaseUrl}api/dealears/delete`, {
+                    leadId: leadId,
+                });
+                await this.fetchTableData();
             } catch (error) {
                 console.error('Ошибка при сохранении:', error);
             }
