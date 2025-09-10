@@ -28,11 +28,15 @@
             </div>
             <div class="col-12 col-md-8 mb-5">
                 <p>Введите телефон</p>
-                <input type="tel" class="form-control w-100" v-model="formObject.phone" placeholder="Телефон" />
+                <input type="tel" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" class="form-control w-100" v-model="formObject.phone" placeholder="Телефон" />
             </div>
             <div class="col-12 col-md-8 mb-5">
                 <p>Введите коментарий</p>
-                <input class="form-control w-100" v-model="formObject.comment" placeholder="Коментарий" />
+                <select class="form-control" v-model="formObject.comment">
+                    <option v-for="(item, index) in comments" :key="index" :value="item">
+                        {{ item }}
+                    </option>
+                </select>
             </div>
             <div class="col-12 col-md-8 mb-5">
                 <p>Выбрать Оператора</p>
@@ -68,14 +72,15 @@ export default {
             dealers: [],
             models: [],
             operators: [],
+            comments: ['Тест-драйв', 'Предложение'],
             formObject: {
-                city: '',
-                dealer: '',
-                model: '',
+                city: null,
+                dealer: null,
+                model: null,
                 name: null,
                 phone: null,
                 comment: null,
-                operator: '',
+                operator: null,
                 presale: null,
             },
         };
@@ -93,9 +98,15 @@ export default {
                 this.formObject.dealer = this.dealersByCity[0];
                 this.formObject.model = this.models[0];
                 this.formObject.operator = this.operators[0];
+                this.formObject.comment = this.comments[0];
             }
         },
         async createDealer() {
+            if (!this.formObject.name || !this.formObject.presale || !this.formObject.phone || !this.formObject.city || !this.formObject.dealer || !this.formObject.model || !this.formObject.operator || !this.formObject.comment) {
+                alert('Пожалуйста, заполните все обязательные поля');
+                return;
+            }
+
             let response = await axios.post(`${apiBaseUrl}api/dealears/create`, {
                 dealersObject: this.formObject,
             });
