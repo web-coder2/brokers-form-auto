@@ -29,8 +29,8 @@
                         <th>Оператор</th>
                         <th>Пресейл</th>
                         <th>Дата</th>
-                        <th>Удалить</th>
-                        <th>Редактировать</th>
+                        <!-- <th>Удалить</th>
+                        <th>Редактировать</th> -->
                     </tr>
                 </thead>
                 <tbody>
@@ -44,12 +44,12 @@
                         <td>{{ item.operator }}</td>
                         <td>{{ item.presale }}</td>
                         <td>{{ item.createdAt }}</td>
-                        <td>
+                        <!-- <td>
                             <button class="btn btn-danger" @click="deleteLead(item._id)"><i class="fas fa-trash"></i>Удалить</button>
                         </td>
                         <td>
                             <button class="btn btn-warning" @click="editLead(item)"><i class="fas fa-pen"></i>Редактировать</button>
-                        </td>
+                        </td> -->
                     </tr>
                 </tbody>
             </table>
